@@ -21,7 +21,6 @@ function mine() {
 
   // proof of work
   while(BigInt('0x' + block.hash()) >= TARGET_DIFFICULTY) {
-    // console.log(block.hash());
     block.nonce++;
   }
 
