@@ -1,19 +1,19 @@
-const Blockchain = require('./models/Blockchain');
-const Block = require('./models/Block');
+
+const jayson = require('jayson');
+const mine = require('./mine');
+const { PORT } = require('./config');
 
 // put into file system and import / export it later
-const db = {
-  blockchain: new Blockchain()
-}
+const server = jayson.server({
+  startMining: function(_, callback) {
+    callback(null, 'started!');
+    mine.startMining();
+  },
+  stopMining: function(_, callback) {
+    callback(null, 'stopped!');
+    mine.stopMining();
+  }
+});
 
-function mine() {
-  db.blockchain.addBlock(new Block());
-
-  console.log(db.blockchain.blockHeight());
-
-  // heartbeat
-  setTimeout(mine, 5000);
-}
-
-mine();
+server.http().listen(PORT);
 
